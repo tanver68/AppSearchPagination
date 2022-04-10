@@ -1,0 +1,6 @@
+
+
+
+ Scaffold-DbContext "{ Your DB connect string }" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models 
+ 
+ Scaffold-DbContext  "Server=WIN-FS4U3DFC5B3\SQLEXPRESS;Database=EmpDB;Trusted_Connection=True;" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models

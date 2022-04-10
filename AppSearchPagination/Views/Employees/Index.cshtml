@@ -1,0 +1,96 @@
+﻿@model PaginatedList<AppSearchPagination.Models.Employee>
+
+@{
+    ViewData["Title"] = "Index";
+  
+
+    int cp = Model.PageIndex;
+    int tp = Model.TotalPages;
+    int pagesize = 10; 
+    int i = (cp-1)*pagesize + 1;
+
+    string prevpage = Model.HasPreviousPage ? " " : "disabled";
+    string nextpage = Model.HasNextPage ? " " : "disabled";
+
+    int start = cp - 3;
+    int stop = cp + 3;
+
+}
+
+<h2 class="alert alert-info">Employee Information</h2>
+
+<p>
+    <a class="btn btn-primary" asp-action="Create">Create New Employee</a>
+</p>
+
+<p>
+     <a asp-action="index" asp-route-page="1" class="btn btn-primary btn-sm" > First </a>
+     <a asp-action="index" asp-route-page="@(cp-1)" class="btn btn-primary btn-sm @prevpage" > Previous </a>
+      @for(int k=start; k<=stop; k++)
+    {
+        if (k >= 1 && k <= tp)
+        {
+            if (k == cp)
+            {
+                <a asp-action="index" asp-route-page="@k" class="btn alert-warning btn-sm" > @k </a>
+            }
+            else
+            {
+                <a asp-action="index" asp-route-page="@k" class="btn btn-primary btn-sm" > @k </a>
+            }
+        }
+    }
+     <a asp-action="index" asp-route-page="@(cp+1)" class="btn btn-primary btn-sm @nextpage" > Next </a>
+       <a asp-action="index" asp-route-page="@tp" class="btn btn-primary btn-sm" > Last </a>
+</p>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>SL#</th>
+            <th>
+                Employee Name
+            </th>
+            <th>
+                Employee Status
+            </th>
+            <th>
+                Salary
+            </th>
+            <th>
+                Pay Basis
+            </th>
+            <th>
+                Position Title
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>@i</td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EmployeeName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EmployeeStatus)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Salary)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PayBasis)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PositionTitle)
+            </td>
+            <td>
+               <a asp-action="Edit" class="btn alert-warning btn-sm" asp-route-id="@item.Id">Edit</a> 
+                <a asp-action="Details" class="btn btn-success btn-sm" asp-route-id="@item.Id">Details</a> 
+                <a asp-action="Delete" class="btn alert-danger btn-sm" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+        i++;
+}
+    </tbody>
+</table>
